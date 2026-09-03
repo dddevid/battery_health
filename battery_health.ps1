@@ -72,50 +72,74 @@ $barFilled = [math]::Max(0, [math]::Min(20, [math]::Round($health / 5)))
 $barEmpty  = 20 - $barFilled
 $bar = ("$barF" * $barFilled) + ("$barE" * $barEmpty)
 
-$lineSep = "$boxH" * 58
+# ─── LAYOUT E STAMPA RIGOROSAMENTE MATEMATICA ───
+$innerW  = 56
+$lineSep = "$boxH" * $innerW
 
 Write-Host ""
 Write-Host " $boxTL$lineSep$boxTR" -ForegroundColor Cyan
+
 Write-Host " $boxV " -NoNewline -ForegroundColor Cyan
-Write-Host "$($T.Title.PadRight(56))" -NoNewline -ForegroundColor White
-Write-Host " $boxV" -ForegroundColor Cyan
-Write-Host " $boxML$lineSep$boxMR" -ForegroundColor Cyan
-
-Write-Host " $boxV  $($T.MaxCap.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
-Write-Host "$($health.ToString().PadLeft(5))% " -NoNewline -ForegroundColor $condColor
-Write-Host "[$bar]" -NoNewline -ForegroundColor $condColor
-Write-Host "     $boxV" -ForegroundColor Cyan
-
-Write-Host " $boxV  $($T.Condition.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
-Write-Host "$($condText.PadRight(31))" -NoNewline -ForegroundColor $condColor
-Write-Host " $boxV" -ForegroundColor Cyan
-
-Write-Host " $boxV  $($T.Cycles.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
-Write-Host "$("$cycles".PadRight(31))" -NoNewline -ForegroundColor White
+Write-Host "$($T.Title.PadRight(54))" -NoNewline -ForegroundColor White
 Write-Host " $boxV" -ForegroundColor Cyan
 
 Write-Host " $boxML$lineSep$boxMR" -ForegroundColor Cyan
 
-Write-Host " $boxV  $($T.Current.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
-Write-Host "$("$currPct% ($statusText)".PadRight(31))" -NoNewline -ForegroundColor White
+$barStr = "$([math]::Round($health))% [$bar]"
+Write-Host " $boxV  " -NoNewline -ForegroundColor Cyan
+Write-Host "$($T.MaxCap.PadRight(20))" -NoNewline -ForegroundColor DarkGray
+Write-Host " : " -NoNewline -ForegroundColor DarkGray
+Write-Host "$($barStr.PadRight(30))" -NoNewline -ForegroundColor $condColor
 Write-Host " $boxV" -ForegroundColor Cyan
 
-Write-Host " $boxV  $($T.FullCap.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
-Write-Host "$("$([int]$full) mWh".PadRight(31))" -NoNewline -ForegroundColor White
+Write-Host " $boxV  " -NoNewline -ForegroundColor Cyan
+Write-Host "$($T.Condition.PadRight(20))" -NoNewline -ForegroundColor DarkGray
+Write-Host " : " -NoNewline -ForegroundColor DarkGray
+Write-Host "$($condText.PadRight(30))" -NoNewline -ForegroundColor $condColor
 Write-Host " $boxV" -ForegroundColor Cyan
 
-Write-Host " $boxV  $($T.DesignCap.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
-Write-Host "$("$([int]$design) mWh".PadRight(31))" -NoNewline -ForegroundColor White
+Write-Host " $boxV  " -NoNewline -ForegroundColor Cyan
+Write-Host "$($T.Cycles.PadRight(20))" -NoNewline -ForegroundColor DarkGray
+Write-Host " : " -NoNewline -ForegroundColor DarkGray
+Write-Host "$("$cycles".PadRight(30))" -NoNewline -ForegroundColor White
+Write-Host " $boxV" -ForegroundColor Cyan
+
+Write-Host " $boxML$lineSep$boxMR" -ForegroundColor Cyan
+
+$currStr = "$currPct% ($statusText)"
+if ($currStr.Length -gt 30) { $currStr = $currStr.Substring(0, 27) + "..." }
+Write-Host " $boxV  " -NoNewline -ForegroundColor Cyan
+Write-Host "$($T.Current.PadRight(20))" -NoNewline -ForegroundColor DarkGray
+Write-Host " : " -NoNewline -ForegroundColor DarkGray
+Write-Host "$($currStr.PadRight(30))" -NoNewline -ForegroundColor White
+Write-Host " $boxV" -ForegroundColor Cyan
+
+Write-Host " $boxV  " -NoNewline -ForegroundColor Cyan
+Write-Host "$($T.FullCap.PadRight(20))" -NoNewline -ForegroundColor DarkGray
+Write-Host " : " -NoNewline -ForegroundColor DarkGray
+Write-Host "$("$([int]$full) mWh".PadRight(30))" -NoNewline -ForegroundColor White
+Write-Host " $boxV" -ForegroundColor Cyan
+
+Write-Host " $boxV  " -NoNewline -ForegroundColor Cyan
+Write-Host "$($T.DesignCap.PadRight(20))" -NoNewline -ForegroundColor DarkGray
+Write-Host " : " -NoNewline -ForegroundColor DarkGray
+Write-Host "$("$([int]$design) mWh".PadRight(30))" -NoNewline -ForegroundColor White
 Write-Host " $boxV" -ForegroundColor Cyan
 
 $hwInfo = "$($bat.Manufacturer) $($bat.DeviceName)".Trim()
-if ($hwInfo.Length -gt 31) { $hwInfo = $hwInfo.Substring(0, 28) + "..." }
-Write-Host " $boxV  $($T.Device.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
-Write-Host "$($hwInfo.PadRight(31))" -NoNewline -ForegroundColor White
+if ($hwInfo.Length -gt 30) { $hwInfo = $hwInfo.Substring(0, 27) + "..." }
+Write-Host " $boxV  " -NoNewline -ForegroundColor Cyan
+Write-Host "$($T.Device.PadRight(20))" -NoNewline -ForegroundColor DarkGray
+Write-Host " : " -NoNewline -ForegroundColor DarkGray
+Write-Host "$($hwInfo.PadRight(30))" -NoNewline -ForegroundColor White
 Write-Host " $boxV" -ForegroundColor Cyan
 
-Write-Host " $boxV  $($T.Chemistry.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
-Write-Host "$("$($bat.Chemistry)".PadRight(31))" -NoNewline -ForegroundColor White
+$chem = "$($bat.Chemistry)".Trim()
+if ($chem.Length -gt 30) { $chem = $chem.Substring(0, 27) + "..." }
+Write-Host " $boxV  " -NoNewline -ForegroundColor Cyan
+Write-Host "$($T.Chemistry.PadRight(20))" -NoNewline -ForegroundColor DarkGray
+Write-Host " : " -NoNewline -ForegroundColor DarkGray
+Write-Host "$($chem.PadRight(30))" -NoNewline -ForegroundColor White
 Write-Host " $boxV" -ForegroundColor Cyan
 
 Write-Host " $boxBL$lineSep$boxBR" -ForegroundColor Cyan
