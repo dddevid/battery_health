@@ -5,11 +5,11 @@ $isIt = ($lang -eq 'it')
 
 $T = @{
     Title        = if ($isIt) { "STATO DELLA BATTERIA" } else { "BATTERY HEALTH REPORT" }
-    MaxCap       = if ($isIt) { "Capacità massima" } else { "Maximum Capacity" }
+    MaxCap       = if ($isIt) { "Capacita massima" } else { "Maximum Capacity" }
     Condition    = if ($isIt) { "Stato generale" } else { "Condition" }
     Cycles       = if ($isIt) { "Cicli di ricarica" } else { "Cycle Count" }
     Current      = if ($isIt) { "Carica attuale" } else { "Current Charge" }
-    DesignCap    = if ($isIt) { "Capacità nominale" } else { "Design Capacity" }
+    DesignCap    = if ($isIt) { "Capacita nominale" } else { "Design Capacity" }
     FullCap      = if ($isIt) { "Piena carica" } else { "Full Charge Capacity" }
     Device       = if ($isIt) { "Dispositivo" } else { "Device" }
     Chemistry    = if ($isIt) { "Chimica" } else { "Chemistry" }
@@ -68,42 +68,42 @@ Write-Host "$($T.Title.PadRight(54))" -NoNewline -ForegroundColor White
 Write-Host " │" -ForegroundColor Cyan
 Write-Host " ├────────────────────────────────────────────────────────┤" -ForegroundColor Cyan
 
-Write-Host " │  $($T.MaxCap.PadRight(22)): " -NoNewline -ForegroundColor DarkGray
-Write-Host "$($health.ToString().PadLeft(5))%  " -NoNewline -ForegroundColor $condColor
+Write-Host " │  $($T.MaxCap.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
+Write-Host "$($health.ToString().PadLeft(5))% " -NoNewline -ForegroundColor $condColor
 Write-Host "[$bar] " -NoNewline -ForegroundColor $condColor
 Write-Host "│" -ForegroundColor Cyan
 
-Write-Host " │  $($T.Condition.PadRight(22)): " -NoNewline -ForegroundColor DarkGray
+Write-Host " │  $($T.Condition.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
 Write-Host "$($condText.PadRight(29))" -NoNewline -ForegroundColor $condColor
-Write-Host "│" -ForegroundColor Cyan
+Write-Host " │" -ForegroundColor Cyan
 
-Write-Host " │  $($T.Cycles.PadRight(22)): " -NoNewline -ForegroundColor DarkGray
+Write-Host " │  $($T.Cycles.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
 Write-Host "$("$cycles".PadRight(29))" -NoNewline -ForegroundColor White
-Write-Host "│" -ForegroundColor Cyan
+Write-Host " │" -ForegroundColor Cyan
 
 Write-Host " ├────────────────────────────────────────────────────────┤" -ForegroundColor Cyan
 
-Write-Host " │  $($T.Current.PadRight(22)): " -NoNewline -ForegroundColor DarkGray
+Write-Host " │  $($T.Current.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
 Write-Host "$("$currPct% ($statusText)".PadRight(29))" -NoNewline -ForegroundColor White
-Write-Host "│" -ForegroundColor Cyan
+Write-Host " │" -ForegroundColor Cyan
 
-Write-Host " │  $($T.FullCap.PadRight(22)): " -NoNewline -ForegroundColor DarkGray
+Write-Host " │  $($T.FullCap.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
 Write-Host "$("$([int]$full) mWh".PadRight(29))" -NoNewline -ForegroundColor White
-Write-Host "│" -ForegroundColor Cyan
+Write-Host " │" -ForegroundColor Cyan
 
-Write-Host " │  $($T.DesignCap.PadRight(22)): " -NoNewline -ForegroundColor DarkGray
+Write-Host " │  $($T.DesignCap.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
 Write-Host "$("$([int]$design) mWh".PadRight(29))" -NoNewline -ForegroundColor White
-Write-Host "│" -ForegroundColor Cyan
+Write-Host " │" -ForegroundColor Cyan
 
 $hwInfo = "$($bat.Manufacturer) $($bat.DeviceName)".Trim()
 if ($hwInfo.Length -gt 29) { $hwInfo = $hwInfo.Substring(0, 26) + "..." }
-Write-Host " │  $($T.Device.PadRight(22)): " -NoNewline -ForegroundColor DarkGray
+Write-Host " │  $($T.Device.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
 Write-Host "$($hwInfo.PadRight(29))" -NoNewline -ForegroundColor White
-Write-Host "│" -ForegroundColor Cyan
+Write-Host " │" -ForegroundColor Cyan
 
-Write-Host " │  $($T.Chemistry.PadRight(22)): " -NoNewline -ForegroundColor DarkGray
+Write-Host " │  $($T.Chemistry.PadRight(20)) : " -NoNewline -ForegroundColor DarkGray
 Write-Host "$("$($bat.Chemistry)".PadRight(29))" -NoNewline -ForegroundColor White
-Write-Host "│" -ForegroundColor Cyan
+Write-Host " │" -ForegroundColor Cyan
 
 Write-Host " └────────────────────────────────────────────────────────┘" -ForegroundColor Cyan
 Write-Host ""
